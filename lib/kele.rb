@@ -1,9 +1,10 @@
 require "httparty"
 require "json"
+require "/Users/ericpeterson/development/Kele/lib/roadmap.rb"
 
  class Kele
    include HTTParty
-
+   include Roadmap
 
    def initialize(email, password)
      response = self.class.post(base_api_endpoint("sessions"), body: { "email": email, "password": password })
@@ -21,9 +22,8 @@ require "json"
    def get_mentor_availability(mentor_id)
      response = self.class.get(base_api_endpoint("mentors/#{mentor_id}/student_availability"), headers: { "authorization" => @auth_token })
      @mentor_availability = JSON.parse(response.body)
-     @user_data
    end
-   
+
  private
 
    def base_api_endpoint(end_point)
