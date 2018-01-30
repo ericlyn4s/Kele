@@ -24,6 +24,15 @@ require "/Users/ericpeterson/development/Kele/lib/roadmap.rb"
      @mentor_availability = JSON.parse(response.body)
    end
 
+   def get_messages(page_number=1)
+     response = self.class.get(base_api_endpoint("message_threads?#{page_number}"), headers: { "authorization" => @auth_token })
+     @messages_page = JSON.parse(response.body)
+   end
+
+   def create_message(sender_email, recipient_id, stripped_text, subject )
+     response = self.class.post(api_url("messages"), headers: { "authorization" => @auth_token }, body: { sender: sender_email, recipient_id: recipient_id, stripped_text: stripped_text, subject: subject })
+     response.success? puts "message sent!"
+   end
  private
 
    def base_api_endpoint(end_point)
