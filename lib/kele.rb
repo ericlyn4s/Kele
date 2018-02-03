@@ -33,6 +33,13 @@ require "/Users/ericpeterson/development/Kele/lib/roadmap.rb"
      response = self.class.post(api_url("messages"), headers: { "authorization" => @auth_token }, body: { sender: sender_email, recipient_id: recipient_id, stripped_text: stripped_text, subject: subject })
      response.success? puts "message sent!"
    end
+
+   def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment)
+     response = self.class.post(base_api_endpoint("checkpoint"), headers: { "authorization" => @auth_token }, body: { checkpoint_id: checkpoint_id, assignment_branch: assignment_branch, assignment_commit_link: assignment_commit_link, comment: comment })
+     @submission_creation = JSON.parse(response.body)
+   end
+
+
  private
 
    def base_api_endpoint(end_point)
